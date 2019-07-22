@@ -3,15 +3,22 @@
   <head>
     <title>BUD</title>
   </head>
+  <style>
+    .msgBubble {
+      color:white;
+      background:black;
+      padding:5px;
+    }
+  </style>
   <body>
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
     <ul id="messages"></ul>
-      <form action="">
+      <form action="" class="navbar-fixed-bottom">
         <input class="form-control" id="m" autocomplete="off" /><button class="btn btn-primary">Send</button>
       </form>
       </div>
-      </div
+    </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <!-- Latest compiled and minified CSS -->
@@ -31,7 +38,7 @@
           return false;
         });
         socket.on('chat message', function(msg){
-          $('#messages').append($('<li>').text(msg));
+          $('#messages').append($('<li class="msgBubble">').text(msg));
           window.scrollTo(0, document.body.scrollHeight);
         });
       });
