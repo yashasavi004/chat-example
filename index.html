@@ -13,6 +13,27 @@
     }
   </style>
   <body>
+     <div class="container">
+      <h1 class="jumbotron">
+        ChatBud!
+      </h1>
+      <div class="row" style="margin-top: 70px;">
+         <div class="col-md-4"></div>
+         <div class="col-md-6">
+            <div id="chatArea">
+            </div>
+            <form id="myForm">
+               <div class="form-group">
+                  <input id="txt" class="form-control">
+               </div>
+               <div class="form-group">
+                  <button type="submit" class="btn btn-success">Send</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+    <!--
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
     <ul id="messages" style="padding: 0px;"></ul>
@@ -21,7 +42,7 @@
         <button class="btn btn-primary" style="width: 100%;margin-top:10px;">Send</button>
       </form>
       </div>
-    </div>
+    </div>-->
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <!-- Latest compiled and minified CSS -->
@@ -44,6 +65,22 @@
           $('#messages').append($('<li class="msgBubble">').text(msg));
           window.scrollTo(0, document.body.scrollHeight);
         });
+      });
+      
+      jQuery(document).ready(function() {
+         var socket = io.connect();
+         var form = jQuery('#myForm');
+         var txt = jQuery('#txt');
+         var chatArea = jQuery('#chatArea');
+
+         form.submit(function(e) {
+            e.preventDefault();
+            socket.emit('sending message', txt.val());
+            txt.val('');
+         });
+         socket.on('new message', function(data){
+            chatArea.append('<div class="well">'+data.message+'</div>');
+         });
       });
     </script>
   </body>
